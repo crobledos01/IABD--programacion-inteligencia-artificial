@@ -1,0 +1,2 @@
+Por si lo lees antes de que lo borre, esto es solo porque si no añado dos carpetas en git se concatena la carpeta
+de la tarea 1 a la de Ejercicios y se lee bastante mal.
