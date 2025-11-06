@@ -1,4 +1,3 @@
-"""
 #!/usr/bin/env python
 # coding: utf-8
 
@@ -384,4 +383,7 @@ if (amz_target=='RekognitionService.DetectFaces'):
 
 
 # In[ ]:
-"""
+
+
+
+

@@ -1,4 +1,3 @@
-"""
 #!/usr/bin/env python
 # coding: utf-8
 
@@ -87,4 +86,3 @@ for label in response['Labels']:
 
 
 
-"""

@@ -1,4 +1,3 @@
-"""
 #!/usr/bin/env python
 # coding: utf-8
 
@@ -157,4 +156,3 @@ with open('salida_audio.mp3', 'wb') as audio_file:
 print("El archivo de audio se ha guardado como salida_audio.mp3")
 '''
 
-"""

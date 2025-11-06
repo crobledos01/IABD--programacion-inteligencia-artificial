@@ -1,4 +1,3 @@
-"""
 #!/usr/bin/env python
 # coding: utf-8
 
@@ -154,4 +153,3 @@ for i, face in enumerate(face_details):
 
 
 # 
-"""
