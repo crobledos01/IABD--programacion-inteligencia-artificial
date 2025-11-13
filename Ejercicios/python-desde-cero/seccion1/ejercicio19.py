@@ -1,0 +1,5 @@
+correctas = int(input("Introduce el número de respuestas correctas: "))
+incorrectas = int(input("Introduce el número de respuestas incorrectas: "))
+en_blanco = int(input("Introduce el número de respuestas en blanco: "))
+puntuacion = (correctas * 5) - (incorrectas * 1) + (en_blanco * 0)
+print("El resultado total es:", puntuacion)

@@ -1,0 +1,7 @@
+dos_euros = int(input("Introduce el número de monedas de 2 euros: "))
+un_euro = int(input("Introduce el número de monedas de 1 euro: "))
+cincuenta_centimos = int(input("Introduce el número de monedas de 50 céntimos: "))
+veinte_centimos = int(input("Introduce el número de monedas de 20 céntimos: "))
+diez_centimos = int(input("Introduce el número de monedas de 10 céntimos: "))
+total = (dos_euros * 2) + (un_euro * 1) + (cincuenta_centimos * 0.5) + (veinte_centimos * 0.2) + (diez_centimos * 0.1)
+print("El total es:", total, "€")
