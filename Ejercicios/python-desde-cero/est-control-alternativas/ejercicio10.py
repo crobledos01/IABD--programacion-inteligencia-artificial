@@ -10,6 +10,9 @@ if distancia == r1 + r2:
 elif distancia > r1 + r2:
     print("Los círculos son exteriores")
 else:
-    
+    if distancia + min(r1, r2) < max(r1, r2):
+        print("Los círculos son interiores")
+    else:
+        print("Los círculos son tangentes interiores")
 if x1 == x2 and y1 == y2:
     print("Los círculos son concéntricos")
