@@ -5,7 +5,7 @@ def LeerFecha():
     return fecha_numerica
 
 def EsBisiesto(año):
-    return (año % 4 == 0)
+    return ((año % 4 == 0 and año % 100 != 0) or (año % 400 == 0))
 
 def DiasDelMes(mes, año):
     dias_por_mes = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
