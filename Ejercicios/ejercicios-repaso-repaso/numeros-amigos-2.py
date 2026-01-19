@@ -1,32 +1,35 @@
-def primeras_parejas_amigos(x):
+def calcDivisores(numero):
+    divisores = []
+    i = 1
+    while i <= numero / 2:
+        if numero % i == 0:
+            divisores.append(i)
+        i += 1
+    return divisores
 
-    #Realiza 
-    N = 10000
+def buscar_numeros_amigos(cantidad):
+    num_busquedas = 10000
     numeros_amigos = []
 
-    while len(numeros_amigos) < x:
-        # Inicializamos la suma de divisores
-        suma_divisores = [0] * (N + 1)
-
-        # Llenamos la suma de divisores propios
-        for d in range(1, N // 2 + 1):
-            for m in range(2*d, N + 1, d):
-                suma_divisores[m] += d
-
-        # Buscamos parejas de números amigos
-        numeros_amigos.clear()  # Limpiamos por si necesitamos repetir con N más grande
-        for n in range(2, N + 1):
-            m = suma_divisores[n]
-            if m > n and m <= N and suma_divisores[m] == n:
-                numeros_amigos.append((n, m))
+    while len(numeros_amigos) < cantidad:
+        numeros_amigos = []
+        suma_divisores = [0] * num_busquedas
+        for n in range(0, num_busquedas // 2 + 1):
+            divisores = calcDivisores(n)
+            suma_divisores[n] = sum(divisores)
         
-        if len(numeros_amigos) < x:
-            # Si no encontramos suficientes, aumentamos el rango
-            N *= 2
+        for n in range(0, num_busquedas // 2 + 1):
+            divisores = calcDivisores(n)
+            sum_div = sum(divisores)
+            for m in range(0, num_busquedas // 2 + 1):
+                if n > m and n != m and suma_divisores[m] == n and sum_div == m:
+                    numeros_amigos.append((m, n))
 
-    # Devolvemos solo las primeras x parejas
-    return numeros_amigos[:x]
+        num_busquedas = num_busquedas + 10000
 
-numero = int(input("Introduce la cantidad de números amigos: "))
-for a, b in primeras_parejas_amigos(numero):
-    print(a, b)
+    return numeros_amigos[:cantidad]
+
+cantidad = int(input("Introduce la cantidad de números amigos a encontrar: "))
+lista_na = buscar_numeros_amigos(cantidad)
+
+print(f"Los primeras {cantidad} parejas de números amigos son: {lista_na}")
