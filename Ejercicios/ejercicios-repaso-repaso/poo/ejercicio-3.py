@@ -80,9 +80,12 @@ class Netflix:
     def __str__(self):
         return f"Netflix tiene {len(self.lista_socios)} socios y {len(self.lista_peliculas)} películas."
 
+# Se crea el objeto Netflix
 netflix = Netflix()
 
+# Variable para controlar el bucle del menú
 abandonar = False
+# Bucle para mostrar el menú de opciones hasta que el usuario decida salir
 while not abandonar:
     print("\n--- Menú de opciones ---")
     print("1. Dar de alta un socio")
@@ -98,6 +101,7 @@ while not abandonar:
     
     match opcion:
         case '1':
+            # Se recogen los datos del socio, se crea un objeto Socio y se llama a la función alta_socio para añadirlo a la lista
             nombre = input("Indica el nombre:")
             dni = input("Indica el DNI:")
             edad = int(input("Indica la edad:"))
@@ -105,13 +109,16 @@ while not abandonar:
             netflix.alta_socio(nuevo_socio)
         
         case '2':
+            # Se pide el dni del socio y se llama a la función baja_socio para eliminarlo de la lista
             dni = input("Indica el DNI del socio a dar de baja:")
             netflix.baja_socio(dni)
         
         case '3':
+            # Se llama a la función mostrar_socios para mostrar la lista de socios
             netflix.mostrar_socios()
         
         case '4':
+            # Se recogen los datos de la película, se crea un objeto Pelicula y se llama a la función alta_pelicula para añadirla a la lista
             titulo = input("Indica el título de la película:")
             genero = input("Indica el género de la película:")
             duracion = int(input("Indica la duración de la película (en minutos):"))
@@ -120,17 +127,22 @@ while not abandonar:
             netflix.alta_pelicula(nueva_pelicula)
         
         case '5':
+            # Se pide el título de la película y se llama a la función baja_pelicula para eliminarla de la lista
             titulo = input("Título de la película a dar de baja:")
             netflix.baja_pelicula(titulo)
         
         case '6':
+            # Se llama a la función mostrar_peliculas para mostrar la lista de películas
             netflix.mostrar_peliculas()
         
         case '7':
+            # Se llama a la función __str__ de la clase Netflix para mostrar la cantidad de socios y películas registradas
             print(netflix)
 
         case '0':
+            # Salir del bucle
             abandonar = True
             
         case _:
+            # Opción por defecto por si se selecciona un número nó válido
             print("Opción no válida, por favor selecciona una opción del 0 al 7.")
