@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
-# Interfaz
+# Clase AdaptadorBaseDeDatos
+# Se crea la interfaz común para los 3 adaptadores de base de datos
 class AdaptadorBaseDeDatos(ABC):
     
     @abstractmethod
@@ -15,7 +16,10 @@ class AdaptadorBaseDeDatos(ABC):
     def cerrar_conexion(self):
         pass
 
-class MySQLAdapter(AdaptadorBaseDeDatos):
+# Clase DapatadorSQL
+# Implementa la interfaz para SQL, necesita host, usuario, password y base de datos para conectarse
+# Cada método llama a la interfaz general y muestra un mensaje para cada acción
+class AdaptadorSQL(AdaptadorBaseDeDatos):
     
     def __init__(self, host, usuario, password, base_datos):
         self.host = host
@@ -26,19 +30,22 @@ class MySQLAdapter(AdaptadorBaseDeDatos):
 
     def conectar(self):
         self.conectado = True
-        print(f"Conectando a MySQL en {self.host}, BD: {self.base_datos}")
+        print("Conectado a MySQL")
 
     def ejecutar_consulta(self, consulta):
         if self.conectado:
-            print(f"MySQL ejecutando consulta: {consulta}")
+            print(f"MySQL está ejecutando la consulta: {consulta}")
         else:
-            print("Error: no hay conexión activa a MySQL")
+            print("Error en la consulta de MySQL")
 
     def cerrar_conexion(self):
         self.conectado = False
-        print("Conexión MySQL cerrada")
+        print("Se ha cerrado la conexión a MySQL")
 
-class PostgreSQLAdapter(AdaptadorBaseDeDatos):
+# Clase AdaptadorPostgre
+# Implementa la interfaz para PostgreSQL, necesita host, usuario, password y base de datos para conectarse
+# Cada método llama a la interfaz general y muestra un mensaje para cada acción
+class AdaptadorPostgre(AdaptadorBaseDeDatos):
     
     def __init__(self, host, usuario, password, base_datos):
         self.host = host
@@ -49,19 +56,22 @@ class PostgreSQLAdapter(AdaptadorBaseDeDatos):
 
     def conectar(self):
         self.conectado = True
-        print(f"Conectando a PostgreSQL en {self.host}, BD: {self.base_datos}")
+        print(f"Conectado a PostgreSQL")
 
     def ejecutar_consulta(self, consulta):
         if self.conectado:
-            print(f"PostgreSQL ejecutando consulta: {consulta}")
+            print(f"PostgreSQL está ejecutando la consulta: {consulta}")
         else:
-            print("Error: no hay conexión activa a PostgreSQL")
+            print("Error en la consulta de PostgreSQL")
 
     def cerrar_conexion(self):
         self.conectado = False
-        print("Conexión PostgreSQL cerrada")
+        print("Se ha cerrado la conexión a PostgreSQL")
 
-class SQLiteAdapter(AdaptadorBaseDeDatos):
+# Clase AdaptadorSQLite
+# Implementa la interfaz para SQLite, necesita el archivo de base de datos para conectarse
+# Cada método llama a la interfaz general y muestra un mensaje para cada acción
+class AdaptadorSQLite(AdaptadorBaseDeDatos):
     
     def __init__(self, archivo_bd):
         self.archivo_bd = archivo_bd
@@ -69,23 +79,24 @@ class SQLiteAdapter(AdaptadorBaseDeDatos):
 
     def conectar(self):
         self.conectado = True
-        print(f"Conectando a SQLite con el archivo: {self.archivo_bd}")
+        print(f"Conectado a SQLite")
 
     def ejecutar_consulta(self, consulta):
         if self.conectado:
-            print(f"SQLite ejecutando consulta: {consulta}")
+            print(f"SQLite está ejecutando la consulta: {consulta}")
         else:
-            print("Error: no hay conexión activa a SQLite")
+            print("Error en la consulta de SQLite")
 
     def cerrar_conexion(self):
         self.conectado = False
-        print("Conexión SQLite cerrada")
+        print("Se ha cerrado la conexión a SQLite")
 
+# Se crean los adaptadores de cada base de datos con los parámetros necesarios de cada uno
+mysql = AdaptadorSQL("localhost", "root", "1234", "empresa")
+postgres = AdaptadorPostgre("localhost", "admin", "abcd", "ventas")
+sqlite = AdaptadorSQLite("basedatos.db")
 
-mysql = MySQLAdapter("localhost", "root", "1234", "empresa")
-postgres = PostgreSQLAdapter("localhost", "admin", "abcd", "ventas")
-sqlite = SQLiteAdapter("basedatos.db")
-
+# Se llaman a los métodos de cada uno de los adaptadores
 mysql.conectar()
 mysql.ejecutar_consulta("SELECT * FROM clientes")
 mysql.cerrar_conexion()
