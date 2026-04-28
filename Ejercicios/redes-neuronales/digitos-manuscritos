@@ -1,0 +1,66 @@
+import numpy as np
+import tensorflow as tf
+from tensorflow import keras
+import matplotlib.pyplot as plt
+from keras.utils import to_categorical
+from keras import models
+from keras import layers
+
+(x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
+print(f'Datasets de entrenamientos:\ Imagenes: {x_train.shape}. Etiquetas: {y_train.shape}')
+print("---------------------")
+print(f'Datasets de test:\ Imagenes: {x_test.shape}. Etiquetas: {y_test.shape}')
+print(f'Imagen cargada en la posición 0:\n {x_train[0]}')
+plt.imshow(x_train[0].reshape(28, 28), cmap='gray')
+print(f'Label asociada a la imagen de la posición 0:\n {y_train[0]}')
+
+x_train = x_train.reshape(x_train.shape[0], 28*28)
+x_test = x_test.reshape(x_test.shape[0], 28*28)
+x_train = x_train.astype('float32') / 255
+x_test = x_test.astype('float32') / 255
+print(x_train.shape[0])
+print(x_test.shape[0])
+
+y_train = to_categorical(y_train)
+y_test = to_categorical(y_test)
+'''ahora la etiqueta no muestra el valor, sino un 1 ó 0(True/False)
+1 cuando la imagen se corresponde con el número de esa posición y 0 cuando no
+Por ejemplo. La imagen x_train[0] representa al 5, cuando miremos ahora el conjunto
+con las etiquetas, y_train[0], deberia mostrar en la posición 5 un 1.
+'''
+y_train[0]
+
+network = models.Sequential()
+network.add(layers.Dense(10, activation = 'sigmoid', input_shape = (28*28,)))
+network.add(layers.Dense(10, activation = 'softmax'))
+network.summary()
+
+network.compile(optimizer='sgd', loss='categorical_crossentropy', metrics=['accuracy'])
+
+history = network.fit(x_train, y_train, batch_size=128, epochs=5)
+
+score = network.evaluate(x_test, y_test, verbose=0)
+print('Test loss:', score[0])
+print('Test accuracy:', score[1])
+
+predicciones = network.predict(x_test)
+predicciones
+
+diez = predicciones[:10]
+diez
+
+
+# Convertimos las predicciones a etiquetas
+predicciones = np.argmax(predicciones, axis=1)
+predicciones[:10]
+# Mostramos una imagen y su respectiva etiqueta
+plt.imshow(x_test[0].reshape(28, 28), cmap='gray')
+plt.title(f'VReal: {np.argmax(y_test[0])}\nPred: {predicciones[0]}')
+plt.show()
+# Mostramos varias imágenes y sus respectivas etiquetas
+for i in range(5):
+    plt.subplot(1, 5, i + 1 )
+    plt.imshow(x_test[i].reshape(28, 28), cmap='gray')
+    plt.title(f'VReal: {np.argmax(y_test[i])}\nPred: {predicciones[i]}')
+    plt.axis('off')
+plt.show()

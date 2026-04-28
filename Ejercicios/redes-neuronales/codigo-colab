@@ -1,0 +1,106 @@
+from tensorflow import keras
+from tensorflow.keras import layers
+
+
+def crear_perceptron_simple():
+    """Modelo mínimo con 3 variables de entrada y 1 neurona de salida."""
+    model = keras.Sequential([
+        keras.Input(shape=(3,)),
+        layers.Dense(units=1)
+    ])
+    return model
+
+
+
+def crear_dnn_vector_12():
+    """Red neuronal densa para 12 variables de entrada."""
+    model = keras.Sequential([
+        keras.Input(shape=(12,)),
+        layers.Dense(32, activation="relu"),
+        layers.Dense(32)
+    ])
+    return model
+
+
+
+def crear_modelo_imagenes_bn():
+    """Ejemplo para imágenes en blanco y negro de 12x12."""
+    model = keras.Sequential([
+        keras.Input(shape=(12, 12, 1)),
+        layers.Flatten(),
+        layers.Dense(64, activation="relu"),
+        layers.Dense(1, activation="sigmoid")
+    ])
+    return model
+
+
+
+def crear_modelo_imagenes_color_4_clases():
+    """Ejemplo para imágenes RGB de 28x28 clasificadas en 4 clases."""
+    model = keras.Sequential([
+        keras.Input(shape=(28, 28, 3)),
+        layers.Flatten(),
+        layers.Dense(128, activation="relu"),
+        layers.Dense(4, activation="softmax")
+    ])
+    return model
+
+
+
+def compilar_clasificacion_binaria(model, learning_rate=0.01, momentum=0.9):
+    """Compila un modelo para clasificación binaria."""
+    optimizer = keras.optimizers.SGD(
+        learning_rate=learning_rate,
+        momentum=momentum
+    )
+    model.compile(
+        optimizer=optimizer,
+        loss="binary_crossentropy",
+        metrics=["accuracy"]
+    )
+    return model
+
+
+
+def compilar_clasificacion_multiclase(model, learning_rate=0.001):
+    """Compila un modelo para clasificación multiclase con etiquetas enteras."""
+    optimizer = keras.optimizers.Adam(learning_rate=learning_rate)
+    model.compile(
+        optimizer=optimizer,
+        loss="sparse_categorical_crossentropy",
+        metrics=["accuracy"]
+    )
+    return model
+
+
+
+def entrenar_modelo(model, x_train, y_train, epochs=20, batch_size=40):
+    """Entrena un modelo ya compilado."""
+    history = model.fit(
+        x_train,
+        y_train,
+        epochs=epochs,
+        batch_size=batch_size
+    )
+    return history
+
+
+
+def mostrar_optimizadores_disponibles():
+    """Devuelve una lista de optimizadores comunes en Keras."""
+    return [
+        keras.optimizers.Adadelta(),
+        keras.optimizers.Adagrad(),
+        keras.optimizers.Adam(),
+        keras.optimizers.Adamax(),
+        keras.optimizers.Ftrl(),
+        keras.optimizers.Nadam(),
+        keras.optimizers.RMSprop(),
+        keras.optimizers.SGD(),
+    ]
+
+
+if __name__ == "__main__":
+    modelo = crear_modelo_imagenes_color_4_clases()
+    compilar_clasificacion_multiclase(modelo)
+    modelo.summary()
