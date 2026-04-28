@@ -31,13 +31,19 @@ con las etiquetas, y_train[0], deberia mostrar en la posición 5 un 1.
 y_train[0]
 
 network = models.Sequential()
-network.add(layers.Dense(10, activation = 'sigmoid', input_shape = (28*28,)))
+
+# Se ha cambiado la densidad de la capa de 10 neuronas a 512, como indica en el enunciado, para aumentar la capacidad de aprendizaje
+# Se ha cambiado la función de activación de 'sigmoid' a 'relu' para mejorar el gradiente del modelo
+network.add(layers.Dense(512, activation = 'relu', input_shape = (28*28,)))
 network.add(layers.Dense(10, activation = 'softmax'))
 network.summary()
 
-network.compile(optimizer='sgd', loss='categorical_crossentropy', metrics=['accuracy'])
+# El obtimizador se ha cambiado de 'sgd' a 'adam' ya que es mejor optimizador
+network.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-history = network.fit(x_train, y_train, batch_size=128, epochs=5)
+# Se han aumentado los epoch de 5 a 18 para que el modelo aprenda mejor
+# Se ha añadido el validation_split para que el modelo valide su aprendizaje usando valores comprobados
+history = network.fit(x_train, y_train, batch_size=128, epochs=18, validation_split=0.2)
 
 score = network.evaluate(x_test, y_test, verbose=0)
 print('Test loss:', score[0])
@@ -49,15 +55,13 @@ predicciones
 diez = predicciones[:10]
 diez
 
-
-# Convertimos las predicciones a etiquetas
 predicciones = np.argmax(predicciones, axis=1)
 predicciones[:10]
-# Mostramos una imagen y su respectiva etiqueta
+
 plt.imshow(x_test[0].reshape(28, 28), cmap='gray')
 plt.title(f'VReal: {np.argmax(y_test[0])}\nPred: {predicciones[0]}')
 plt.show()
-# Mostramos varias imágenes y sus respectivas etiquetas
+
 for i in range(5):
     plt.subplot(1, 5, i + 1 )
     plt.imshow(x_test[i].reshape(28, 28), cmap='gray')
